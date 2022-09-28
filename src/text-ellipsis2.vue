@@ -17,7 +17,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  maxRows: {
+  newline: {
     type: Number,
     default: 5
   },
@@ -53,7 +53,7 @@ const textVisible = computed(() => {
 
 // 计算显示的内容
 function calcContent () {
-  const { content, maxRows, maxLen } = props
+  const { content, newline, maxLen } = props
   const rowTexts = content.split(/\n/) // 每行的内容
   const curRows = rowTexts.length
   
@@ -61,9 +61,9 @@ function calcContent () {
   isEll.value = false
   
   // 超出最大行数
-  if (curRows > maxRows) {
+  if (curRows > newline) {
     isEll.value = true
-    curText = rowTexts.slice(0, maxRows).join('\n')
+    curText = rowTexts.slice(0, newline).join('\n')
   }
   
   // 超出最大字数
@@ -83,7 +83,7 @@ onBeforeMount(() => {
   calcContent()
 })
 
-watch(() => [props.content, props.maxLen, props.maxRows], calcContent)
+watch(() => [props.content, props.maxLen, props.newline], calcContent)
 </script>
 
 <style lang='less' scoped>

@@ -5,12 +5,12 @@
     <h2>实现facebook的文本省略</h2>
     <br>
     文本内容:<el-input type="textarea" v-model="text" :rows="5" />
-    不能超过行数:<el-input-number v-model="maxRows"></el-input-number><br>
+    不能超过换行数:<el-input-number v-model="newline"></el-input-number><br>
     不能超过字数:<el-input-number v-model="maxLen"></el-input-number><br>
     <br>
     <h4>效果:</h4>
     <br>
-    <TextEllipsis2 :maxRows="maxRows" :maxLen="maxLen" style="max-width: 800px;" :content="text"></TextEllipsis2>
+    <TextEllipsis2 :newline="newline" :maxLen="maxLen" style="max-width: 800px;" :content="text"></TextEllipsis2>
     <br><hr><br>
     <h2>实现ant-design-mobile的文本省略</h2>
     <br>
@@ -57,7 +57,7 @@ const rows = ref(5)
 const direction = ref('end')
 const single = ref('single')
 
-const maxRows = ref(5)
+const newline = ref(5)
 const maxLen = ref(400)
 </script>
 
