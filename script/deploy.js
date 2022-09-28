@@ -1,4 +1,4 @@
-const ghpages = require('gh-pages')
+import ghpages from 'gh-pages'
 
 console.log('ghpages.publish...')
 ghpages.publish('dist', {

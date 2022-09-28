@@ -10,6 +10,6 @@ export default defineConfig({
     vueJsx()
   ],
   resolve: {
-    extensions: ['.vue', '.js', '.json', 'tsx', 'ts']
+    extensions: ['.vue', '.mjs', '.js', '.json', '.tsx', '.ts']
   }
 })
