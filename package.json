@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "node script/deploy",
+    "publish": "npm run build && node script/deploy"
   },
   "dependencies": {
     "element-plus": "^2.2.15",
