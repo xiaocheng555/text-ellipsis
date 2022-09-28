@@ -60,8 +60,8 @@ const props = defineProps({
   }
 })
 
-const text = ref('') // 显示的文本内容
-const mulText = ref(['', '']) // 显示的文本内容
+const text = ref('') // 显示的省略文本内容
+const mulText = ref(['', '']) // 显示的省略文本内容,direction=middle时,存储开头和结尾的省略文本
 const isEll = ref(false) // 是否省略
 const isExpand = ref(false) // 是否展开
 const boxEl = ref<null | HTMLElement>(null) // 容器dom
@@ -188,7 +188,10 @@ async function calcContent () {
   const div = cloneBox()
   if (!div) return 
   const { paddingBottom, paddingTop, lineHeight } = div.style
+  // 最大高度: 行高 * 行数 + 上下内边距; 
+  // 补: 加上 1/2 为了增加最大高度的安全范围
   const maxHeight = (props.rows + 1 / 2) * toNum(lineHeight) + toNum(paddingTop) + toNum(paddingBottom)
+  // 内容溢出,则进行文本省略
   if (maxHeight < div.offsetHeight) {
     isEll.value = true
     const ellText = calcEllText(div, maxHeight)
@@ -198,6 +201,7 @@ async function calcContent () {
       text.value = ellText
     }
   } else {
+    // 内容未溢出
     isEll.value = false
     text.value = props.content
   }
@@ -257,6 +261,9 @@ watch(() => [
   cursor: pointer;
   &.is-block {
     display: block;
+  }
+  &:hover {
+    opacity: .85;
   }
 }
 </style>

@@ -83,7 +83,7 @@ onBeforeMount(() => {
   calcContent()
 })
 
-watch(() => props.content, calcContent)
+watch(() => [props.content, props.maxLen, props.maxRows], calcContent)
 </script>
 
 <style lang='less' scoped>
