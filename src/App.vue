@@ -74,7 +74,7 @@ const text3 = ref(`永和九年，岁在癸丑，暮春之初，会于会稽山�
 const rows = ref(5)
 const rows2 = ref(5)
 const direction = ref('end')
-const single = ref('single')
+const single = ref(false)
 
 const newline = ref(5)
 const maxLen = ref(400)
