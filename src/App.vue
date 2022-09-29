@@ -3,14 +3,38 @@
     <h1>文本省略</h1>
     <br><br><hr><br>
     <section>
-      <h2>实现简单文本省略</h2>
+      <h2>实现文本省略(基于-webkit-line-clamp)</h2>
       <br>
       文本内容:<el-input type="textarea" v-model="text" :rows="5" />
       省略行数:<el-input-number v-model="rows"></el-input-number><br>
       <br>
       <h4>效果:</h4>
       <br>
-      <SimpleEllipsis :rows="rows" style="max-width: 800px;" :content="text"></SimpleEllipsis>
+      <SimpleEllipsis 
+        style="max-width: 800px;"
+        :rows="rows" 
+        :content="text">
+      </SimpleEllipsis>
+      <br><hr><br>
+    </section>
+    <section>
+      <h2>实现文本省略(基于max-height)</h2>
+      <br>
+      文本内容:<el-input type="textarea" v-model="text" :rows="5" />
+      省略行数:<el-input-number v-model="rows1"></el-input-number><br>
+      展开收起单独一行:<el-switch v-model="single"></el-switch><br>
+      字体大小:<el-input-number v-model="size"></el-input-number><br>
+      <br>
+      <h4>效果:</h4>
+      <br>
+      <SimpleEllipsis2
+        ref="simpleEllipsis"
+        style="max-width: 800px;"
+        :style="{ fontSize: size + 'px', lineHeight: 2 }" 
+        :rows="rows1" 
+        :content="text" 
+        :single="single">
+      </SimpleEllipsis2>
       <br><hr><br>
     </section>
     <section>
@@ -22,7 +46,12 @@
       <br>
       <h4>效果:</h4>
       <br>
-      <FackbookEllipsis :newline="newline" :maxLen="maxLen" style="max-width: 800px;" :content="text2"></FackbookEllipsis>
+      <FackbookEllipsis 
+        :newline="newline" 
+        :maxLen="maxLen" 
+        style="max-width: 800px;" 
+        :content="text2">
+      </FackbookEllipsis>
       <br><hr><br>
     </section>
     <section>
@@ -37,7 +66,7 @@
         <el-radio label="end">end</el-radio>
       </el-radio-group><br>
       <div v-if="direction === 'end'">
-        展开收起单独一行:<el-switch v-model="single"></el-switch><br>
+        展开收起单独一行:<el-switch v-model="single2"></el-switch><br>
       </div>
       <br>
       <h4>效果:</h4>
@@ -46,7 +75,7 @@
         :rows="rows2" 
         :direction="direction"
         :content="text3" 
-        :single="single"
+        :single="single2"
         dot="... ">
       </TextEllipsis>
     </section>
@@ -54,10 +83,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import  SimpleEllipsis from './SimpleEllipsis.vue'
+import  SimpleEllipsis2 from './SimpleEllipsis2.vue'
 import  FackbookEllipsis from './FackbookEllipsis.vue'
 import  TextEllipsis from './TextEllipsis.vue'
-import { ref } from 'vue'
 
 const text = ref(`永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹，又有清流激湍，映带左右，引以为流觞曲水，列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。是日也，天朗气清，惠风和畅。仰观宇宙之大，俯察品类之盛，所以游目骋怀，足以极视听之娱，信可乐也。夫人之相与，俯仰一世。或取诸怀抱，悟言一室之内；或因寄所托，放浪形骸之外。虽趣舍万殊，静躁不同，当其欣于所遇，暂得于己，快然自足，不知老之将至；及其所之既倦，情随事迁，感慨系之矣。向之所欣，俯仰之间，已为陈迹，犹不能不以之兴怀，况修短随化，终期于尽！古人云：“死生亦大矣。”岂不痛哉！每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。固知一死生为虚诞，齐彭殇为妄作。后之视今，亦犹今之视昔，悲夫！故列叙时人，录其所述，虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。`)
 const text2 = ref(`先帝创业未半而中道崩殂，今天下三分，益州疲弊，此诚危急存亡之秋也。然侍卫之臣不懈于内，忠志之士忘身于外者，盖追先帝之殊遇，欲报之于陛下也。诚宜开张圣听，以光先帝遗德，恢弘志士之气，不宜妄自菲薄，引喻失义，以塞忠谏之路也。
@@ -72,12 +102,22 @@ const text2 = ref(`先帝创业未半而中道崩殂，今天下三分，益州�
 const text3 = ref(`永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹，又有清流激湍，映带左右，引以为流觞曲水，列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。是日也，天朗气清，惠风和畅。仰观宇宙之大，俯察品类之盛，所以游目骋怀，足以极视听之娱，信可乐也。夫人之相与，俯仰一世。或取诸怀抱，悟言一室之内；或因寄所托，放浪形骸之外。虽趣舍万殊，静躁不同，当其欣于所遇，暂得于己，快然自足，不知老之将至；及其所之既倦，情随事迁，感慨系之矣。向之所欣，俯仰之间，已为陈迹，犹不能不以之兴怀，况修短随化，终期于尽！古人云：“死生亦大矣。”岂不痛哉！每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。固知一死生为虚诞，齐彭殇为妄作。后之视今，亦犹今之视昔，悲夫！故列叙时人，录其所述，虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。`)
 
 const rows = ref(5)
+const rows1 = ref(5)
+const size = ref(14)
+const simpleEllipsis = ref<{
+  update?: Function
+}>()
 const rows2 = ref(5)
-const direction = ref('end')
 const single = ref(false)
+const direction = ref('end')
+const single2 = ref(false)
 
 const newline = ref(5)
 const maxLen = ref(400)
+
+watch(() => size.value, () => {
+  simpleEllipsis.value?.update?.()
+})
 </script>
 
 <style scoped>
