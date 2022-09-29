@@ -55,7 +55,7 @@ const props = defineProps({
   },
   // 操作按钮单独一行
   single: {
-    type: String,
+    type: Boolean,
     default: false
   }
 })
