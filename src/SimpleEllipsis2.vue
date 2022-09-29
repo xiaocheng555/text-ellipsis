@@ -68,9 +68,10 @@ function toNum (val: any) : number {
   return parseFloat(val)
 }
 
+let lazyToCalc = false // 延迟执行
+
 // 计算内容省略
 async function calcEll () {
-  console.log('calcEll')
   await nextTick()
   if (!contentEl.value) return
   // 计算最大高度
@@ -83,6 +84,11 @@ async function calcEll () {
   isEll.value = contentEl.value.scrollHeight > maxHeight.value
   // 计算占位符高度: 容器高度 - 操作按钮高度
   if (isEll.value) {
+    // 延迟执行,解决内容已经展开时,触发计算,tailEl容器展开时的高度与收起时高度不一致,导致错位
+    if (isExpand.value) { 
+      lazyToCalc = true
+      return
+    }
     await nextTick()
     if (tailEl.value) {
       placeholderHeight.value = maxHeight.value - tailEl.value.offsetHeight
@@ -93,6 +99,10 @@ async function calcEll () {
 // 展开/收起点击
 function onActionClick () {
   isExpand.value = !isExpand.value
+  if (lazyToCalc) {
+    lazyToCalc = false
+    calcEll()
+  }
 }
 
 onBeforeMount(() => {
