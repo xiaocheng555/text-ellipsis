@@ -1,9 +1,7 @@
 <template>
   <div class="text-ellipsis" ref="boxEl">
-    {{textVisible}}
-    <span class="text-ellipsis-suffix" v-if="isEll" ref="actionEl">
-      {{!isExpand ? dot : ''}}
-      <span class="text-ellipsis-action" @click="onActionClick">
+    {{textVisible}}<span class="text-ellipsis-suffix" v-if="isEll" ref="actionEl">
+      {{!isExpand ? dot : ''}}<span class="text-ellipsis-action" @click="onActionClick">
         <slot v-bind="{isExpand}">
           {{actionText}}
         </slot>
@@ -98,7 +96,7 @@ async function calcContent () {
     
     // 省略符号和展开文字的容器
     const oEl = document.createElement('span')
-    const oWitdth = actionEl.value.offsetWidth + 8 // 8为保险值
+    const oWitdth = actionEl.value.offsetWidth
     oEl.style.width = toPx(oWitdth)
     oEl.style.display = 'inline-block'
     oEl.style.verticalAlign = 'top'
